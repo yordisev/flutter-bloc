@@ -4,3 +4,5 @@ export '03-theme/theme_cubit.dart';
 export 'service_locater_getit.dart';
 
 export '04-guest/guest_bloc.dart';
+
+export '05-pokemon/pokemon_bloc.dart';

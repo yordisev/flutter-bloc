@@ -1,3 +1,4 @@
+import 'package:blocs_app/services/pokemon_service.dart';
 import 'package:flutter/material.dart';
 import 'package:blocs_app/config/config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +26,7 @@ class BlocsProviders extends StatelessWidget {
         BlocProvider(create: (context) => getIt<CounterCubit>()),
         BlocProvider(create: (context) => getIt<ThemeCubit>()),
         BlocProvider(create: (context) => getIt<GuestBloc>()),
+        BlocProvider(create: (context) => getIt<PokemonBloc>()),
       ],
       child: const MyApp(),
     );
@@ -38,11 +40,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final appRouter = context.watch<RouterSimpleCubit>().state;
     final theme = context.watch<ThemeCubit>().state;
-    return MaterialApp.router(
-      title: 'Flutter BLoC',
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
-      theme: AppTheme(isDarkmode: theme.isDarkmode).getTheme(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => PokemonService()),
+      ],
+      child: MaterialApp.router(
+        title: 'Flutter BLoC',
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+        theme: AppTheme(isDarkmode: theme.isDarkmode).getTheme(),
+      ),
     );
   }
 }
